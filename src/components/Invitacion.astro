@@ -229,8 +229,8 @@ main { max-width: 560px; margin: 0 auto; background: var(--crema); box-shadow: 0
 <img class="i float fx fx-pop" src="/img/p4-104.webp" alt="Osito abrazando un regalo azul" style="--x:24.97;--w:48.06;--y:66.08;--d:4" loading="lazy" decoding="async">
 <img class="i  fx fx-r" src="/img/p4-105.webp" alt="" style="--x:74.92;--w:25.09;--y:62.49;--d:1" loading="lazy" decoding="async">
 <img class="i  fx fx-up" src="/img/p4-106.webp" alt="" style="--x:77.05;--w:12.50;--y:86.35;--d:2" loading="lazy" decoding="async"></div></section>
-<section class="cq" id="confirmar" aria-label="Confirma tu asistencia"><div class="art" style="--E:45"><img class="i bg fillh" src="/img/p5-109.webp" alt="" loading="lazy" decoding="async" style="--x:0;--y:-0.55;--w:100">
-<img class="i cardimg fx fx-zoom" src="/img/p5-110.webp" alt="" loading="lazy" decoding="async" style="--x:4.14;--y:1.78;--w:89.72;--hh:212.32">
+<section class="cq" id="confirmar" aria-label="Confirma tu asistencia"><div class="art" style={`--E:${45 + (pases - 1) * 19}`}><img class="i bg fillh" src="/img/p5-109.webp" alt="" loading="lazy" decoding="async" style="--x:0;--y:-0.55;--w:100">
+<img class="i cardimg fx fx-zoom" src="/img/p5-110.webp" alt="" loading="lazy" decoding="async" style={`--x:4.14;--y:1.78;--w:89.72;--hh:${212.32 + (pases - 1) * 19}`}>
 <img class="i  fx fx-drop" src="/img/p5-111.webp" alt="" style="--x:41.66;--w:16.67;--y:2.98;--d:1" loading="lazy" decoding="async">
 <img class="i  fx fx-up" src="/img/p5-113.webp" alt="" style="--x:26.99;--w:46.02;--y:26.78;--d:2" loading="lazy" decoding="async">
 <h2><span class="t serif disp rise" style="--cx:49.18;--by:31.34;--w:61.32;--c:11;--d:1;color:#956a42" data-fit="61.32">Confirma tu</span><span class="t serif disp rise" style="--cx:49.14;--by:43.19;--w:49.88;--c:10;--d:2;color:#956a42" data-fit="49.88">asistencia</span></h2>
@@ -258,6 +258,12 @@ main { max-width: 560px; margin: 0 auto; background: var(--crema); box-shadow: 0
       <select id="personas">
         {Array.from({ length: pases }, (_, i) => <option value={i + 1} selected={i + 1 === pases}>{i + 1}</option>)}
       </select>
+      {Array.from({ length: pases - 1 }, (_, i) => (
+      <div class="acomp">
+        <label class="f" for={`acomp${i + 1}`}>Acompañante {i + 1}</label>
+        <input id={`acomp${i + 1}`} type="text" autocomplete="off" placeholder="Nombre y apellido">
+      </div>
+      ))}
     </div>
     )}
     <label class="f" for="mensaje">Mensaje para Axel (opcional)</label>
@@ -377,15 +383,32 @@ var EVENT_TS = Date.UTC(2026, 10, 14, 20, 0, 0); // 14 nov 2026, 2:00 p.m. hora 
   var form = $('rsvp'), done = $('done'), preview = $('preview'), sub = $('submitBtn'), wa = $('waBtn');
   function asiste() { return form.elements['asiste'].value; }
   var pf = $('personasField'); // no existe en la invitación personal
-  form.addEventListener('change', function () { if (pf) pf.hidden = asiste() === 'no'; });
+  var acomps = [].slice.call(document.querySelectorAll('.acomp'));
+  function sync() {
+    if (!pf) return;
+    pf.hidden = asiste() === 'no';
+    var n = parseInt($('personas').value, 10);
+    acomps.forEach(function (a, i) { a.hidden = i >= n - 1; });
+  }
+  form.addEventListener('change', sync);
+  sync();
+  function fail(el, text) { $('err').textContent = text; $('err').hidden = false; el.focus(); }
   function prepare(ev) {
     if (ev) ev.preventDefault();
     var nombre = $('nombre').value.trim();
-    $('err').hidden = !!nombre;
-    if (!nombre) { $('nombre').focus(); return; }
-    var n = pf ? parseInt($('personas').value, 10) : 1, msg = $('mensaje').value.trim(), t;
+    if (!nombre) return fail($('nombre'), 'Escribe tu nombre para continuar.');
+    var n = pf ? parseInt($('personas').value, 10) : 1, msg = $('mensaje').value.trim(), t, nombres = [];
+    if (asiste() === 'si') {
+      for (var i = 0; i < n - 1; i++) {
+        var inp = acomps[i].querySelector('input'), v = inp.value.trim();
+        if (!v) return fail(inp, 'Escribe el nombre de cada acompañante.');
+        nombres.push(v);
+      }
+    }
+    $('err').hidden = true;
     if (asiste() === 'si') {
       t = '¡Hola! Soy ' + nombre + '. Confirmo mi asistencia al baby shower de Axel Damián el sábado 14 de noviembre a las 2:00 p.m. para ' + n + (n === 1 ? ' persona.' : ' personas.');
+      if (nombres.length) t += ' Me acompaña' + (nombres.length > 1 ? 'n: ' : ': ') + nombres.join(', ') + '.';
     } else {
       t = '¡Hola! Soy ' + nombre + '. Gracias por la invitación al baby shower de Axel Damián. Lamentablemente no podré asistir, pero les mando un abrazo.';
     }
