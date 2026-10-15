@@ -279,7 +279,8 @@ main { max-width: 560px; margin: 0 auto; background: var(--crema); box-shadow: 0
   </div>
 </div>
 <button class="gbtn bot rise" id="submitBtn" type="submit" form="rsvp" style="--x:20.83;--w:58.33;--b:51.69">Confirmar asistencia</button>
-<a class="gbtn bot rise" id="waBtn" href="#" target="_blank" rel="noopener" hidden style="--x:20.83;--w:58.33;--b:51.69">Enviar por WhatsApp</a></div></section>
+<a class="gbtn bot rise wa" data-to="alan" href="#" target="_blank" rel="noopener" hidden style="--x:6;--w:42;--b:51.69">Enviar a Alan</a>
+<a class="gbtn bot rise wa" data-to="dafne" href="#" target="_blank" rel="noopener" hidden style="--x:52;--w:42;--b:51.69">Enviar a Dafne</a></div></section>
 <section class="cq" id="gracias" aria-label="Gracias"><div class="art" ><img class="i bg" src="/img/p6-128.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" loading="lazy" decoding="async">
 <img class="i tw fx fx-up" src="/img/p6-129.webp" alt="" style="--x:14.56;--w:8.43;--y:7.76;--d:2" loading="lazy" decoding="async">
 <img class="i tw fx fx-up" src="/img/p6-130.webp" alt="" style="--x:35.39;--w:4.26;--y:7.76;--d:2" loading="lazy" decoding="async">
@@ -302,7 +303,7 @@ main { max-width: 560px; margin: 0 auto; background: var(--crema); box-shadow: 0
 <script is:inline>
 /* Datos que se pueden cambiar */
 var CONFIG = {
-  whatsapp: "524423602996"   // número con lada de país, solo dígitos (ej. 52XXXXXXXXXX). Vacío: WhatsApp deja elegir a quién enviar.
+  whatsapp: { dafne: "524423602996", alan: "524423977484" }   // números con lada de país, solo dígitos (ej. 52XXXXXXXXXX)
 };
 var EVENT_TS = Date.UTC(2026, 10, 14, 20, 0, 0); // 14 nov 2026, 2:00 p.m. hora de CDMX (UTC-6)
 
@@ -380,7 +381,7 @@ var EVENT_TS = Date.UTC(2026, 10, 14, 20, 0, 0); // 14 nov 2026, 2:00 p.m. hora 
   }
 
   /* Confirmación de asistencia */
-  var form = $('rsvp'), done = $('done'), preview = $('preview'), sub = $('submitBtn'), wa = $('waBtn');
+  var form = $('rsvp'), done = $('done'), preview = $('preview'), sub = $('submitBtn'), wa = document.querySelectorAll('.wa');
   function asiste() { return form.elements['asiste'].value; }
   var pf = $('personasField'); // no existe en la invitación personal
   var acomps = [].slice.call(document.querySelectorAll('.acomp'));
@@ -414,16 +415,13 @@ var EVENT_TS = Date.UTC(2026, 10, 14, 20, 0, 0); // 14 nov 2026, 2:00 p.m. hora 
     }
     if (msg) t += ' ' + msg;
     preview.value = t;
-    var base = CONFIG.whatsapp ? 'https://wa.me/' + CONFIG.whatsapp : 'https://wa.me/';
-    wa.href = base + '?text=' + encodeURIComponent(t);
-    $('doneNote').textContent = CONFIG.whatsapp
-      ? 'Toca el botón verde y se abre WhatsApp con tu mensaje listo.'
-      : 'Toca el botón verde, elige el chat de Dafne o Alan y envía el mensaje.';
-    form.hidden = true; done.hidden = false; sub.hidden = true; wa.hidden = false;
+    wa.forEach(function (a) { a.href = 'https://wa.me/' + CONFIG.whatsapp[a.dataset.to] + '?text=' + encodeURIComponent(t); a.hidden = false; });
+    $('doneNote').textContent = 'Toca el botón de Alan o Dafne y se abre WhatsApp con tu mensaje listo.';
+    form.hidden = true; done.hidden = false; sub.hidden = true;
   }
   form.addEventListener('submit', prepare);
   $('copyBtn').addEventListener('click', function () { copyText(preview.value, preview, this); });
-  $('editBtn').addEventListener('click', function () { done.hidden = true; form.hidden = false; wa.hidden = true; sub.hidden = false; });
+  $('editBtn').addEventListener('click', function () { done.hidden = true; form.hidden = false; wa.forEach(function (a) { a.hidden = true; }); sub.hidden = false; });
 })();
 </script>
 </body>
