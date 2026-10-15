@@ -1,0 +1,406 @@
+---
+const { pases } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Baby Shower de Axel Damián</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Raleway:wght@500;600;700&display=swap">
+<style is:global>
+/* Concepto: la invitación de Canva (6 hojas verticales) apilada en un scroll normal.
+   Cada hoja es un lienzo escalable (unidades cqw) con las ilustraciones originales; el texto es real. */
+:root {
+  --crema: #FFFCF3;
+  --pagina: #E4ECF1;
+  --cafe: #8f6a41;
+  --cafe-oscuro: #5e4b37;
+  --azul: #6586a3;
+  --azul-claro: #98bad9;
+  --salvia: #8b987c;
+  --verde-btn: #A9B78C;
+  --f-serif: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --f-sans: 'Raleway', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+  --s: 1.7778; /* alto de la hoja = 177.78 cqw */
+}
+html { color-scheme: light; scroll-behavior: smooth; }
+body { background: var(--pagina); color: var(--cafe-oscuro); font-family: var(--f-sans); -webkit-text-size-adjust: 100%; }
+* { box-sizing: border-box; }
+h1, h2, p { margin: 0; }
+h1, h2 { font: inherit; display: contents; }
+img { max-width: none; }
+[hidden] { display: none !important; }
+
+main { max-width: 560px; margin: 0 auto; background: var(--crema); box-shadow: 0 0 40px rgba(60, 90, 120, .12); }
+.cq { container-type: inline-size; position: relative; width: 100%; overflow: hidden; }
+.cq + .cq { margin-top: -6%; }
+.art { position: relative; width: 100%; height: calc(177.7778cqw + var(--E, 0) * 1cqw); overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 7cqw, #000 calc(100% - 7cqw), transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 7cqw, #000 calc(100% - 7cqw), transparent 100%); }
+#portada .art { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 7cqw), transparent 100%); mask-image: linear-gradient(to bottom, #000 calc(100% - 7cqw), transparent 100%); }
+#gracias .art { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 7cqw); mask-image: linear-gradient(to bottom, transparent 0, #000 7cqw); }
+
+/* Imagenes del diseno */
+.i { position: absolute; left: calc(var(--x) * 1cqw); top: calc(var(--y) * 1.7778cqw); width: calc(var(--w) * 1cqw); height: auto; pointer-events: none; user-select: none; -webkit-user-drag: none; }
+.i.bot { top: auto; bottom: calc(var(--b) * 1cqw); }
+.i.bg { left: 0; width: 100%; }
+.i.fillh { height: 100%; object-fit: cover; top: 0; }
+.i.cardimg { height: calc(var(--hh) * 1cqw); object-fit: fill; }
+
+/* Texto */
+.t { position: absolute; top: calc(var(--by) * 1cqw - .86em); left: calc(var(--cx) * 1cqw); transform: translateX(-50%); white-space: nowrap; line-height: 1; font-size: calc(var(--w) * 1cqw / var(--c) / .52); }
+.t.l { left: calc(var(--lx) * 1cqw); transform: none; }
+.serif { font-family: var(--f-serif); font-weight: 400; }
+.sans { font-family: var(--f-sans); font-weight: 500; }
+.sans.semi { font-weight: 600; }
+.disp { font-optical-sizing: none; font-variation-settings: 'opsz' 60; }
+.u-row { font-size: var(--fs-row, 3.5cqw); }
+.u-addr { font-size: var(--fs-addr, 3.4cqw); }
+.mapline { font-size: 4.2cqw; }
+
+/* Datos: boton de mapa */
+.pill { position: absolute; left: 24cqw; top: 138.6cqw; width: 38cqw; height: 10.8cqw; display: flex; align-items: center; justify-content: center; gap: 1.8cqw;
+  background: url(/img/p2-67.webp) 0 0 / 100% 100% no-repeat; color: #5a6f87; text-decoration: none; font: 700 3.7cqw/1 var(--f-sans); transition: filter .2s; }
+.pill img { width: 4.8cqw; height: auto; }
+.pill:hover { filter: brightness(.96); }
+
+/* Cuenta regresiva */
+.cd { position: absolute; left: 19cqw; width: 62cqw; top: 59cqw; text-align: center; }
+.cd-h { font: 400 5cqw/1.25 var(--f-serif); color: var(--cafe); }
+.cd-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2cqw; margin-top: 7cqw; }
+.cd-c { background: rgba(255, 255, 255, .72); border: .35cqw solid #cfdde9; border-radius: 3.2cqw; padding: 2.4cqw 0 2cqw; display: flex; flex-direction: column; align-items: center; gap: .8cqw; box-shadow: 0 .8cqw 2cqw rgba(101, 134, 163, .12); }
+.cd-c b { font: 500 8.4cqw/1 var(--f-serif); color: var(--cafe); font-variant-numeric: tabular-nums; font-optical-sizing: none; font-variation-settings: 'opsz' 40; }
+.cd-c small { font: 600 3cqw/1 var(--f-sans); color: var(--azul); letter-spacing: .04em; }
+.cd-f { margin-top: 6.5cqw; font: 600 3.4cqw/1.3 var(--f-sans); color: #6f8ca6; }
+
+/* Regalos */
+.gbox { position: absolute; left: 12.43cqw; width: 75.09cqw; top: calc(var(--y) * 1.7778cqw); height: 31.75cqw; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5cqw; text-align: center; }
+.g-l { font: 600 3.4cqw/1.2 var(--f-sans); color: #4f6474; }
+.g-code { font: 500 10.5cqw/1 var(--f-serif); color: #a26e33; letter-spacing: .1em; padding-left: .1em; font-variant-numeric: tabular-nums; font-optical-sizing: none; font-variation-settings: 'opsz' 40; }
+.g-name { font: 500 6cqw/1.1 var(--f-serif); color: #a26e33; font-optical-sizing: none; font-variation-settings: 'opsz' 40; }
+.g-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 7.6cqw; padding: 0 5cqw; border-radius: 99cqw; border: 0; background: var(--azul); color: #fff; font: 700 3.5cqw/1 var(--f-sans); text-decoration: none; cursor: pointer; transition: transform .2s, filter .2s; }
+.g-btn.big { min-height: 10.4cqw; padding: 0 9cqw; font-size: 4.2cqw; white-space: nowrap; }
+.g-btn:hover { transform: translateY(-.3cqw); filter: brightness(1.06); }
+
+/* Confirmacion */
+.panel { position: absolute; left: calc(var(--x) * 1cqw); top: calc(var(--y) * 1.7778cqw); width: calc(var(--w) * 1cqw); min-height: calc(var(--hh) * 1cqw); padding: 4.2cqw 4.4cqw;
+  background: linear-gradient(#f0f5fb, #e8eff8); border-radius: 5cqw; outline: .35cqw dashed #b4c8de; outline-offset: -1.7cqw; box-shadow: 0 1.2cqw 3cqw rgba(101, 134, 163, .16); z-index: 3; }
+.pase { text-align: center; font: 600 3.6cqw/1.2 var(--f-sans); color: #a26e33; margin: 0 0 3cqw; }
+.panel .f { display: block; font: 700 3.3cqw/1.2 var(--f-sans); color: #4f6474; margin: 2.4cqw 0 1cqw; }
+.panel input[type=text], .panel select, .panel textarea { width: 100%; font: 600 max(16px, 3.8cqw)/1.3 var(--f-sans); color: var(--cafe-oscuro); background: #fff; border: .35cqw solid #c9d8e8; border-radius: 3cqw; padding: 2.2cqw 3cqw; }
+.panel textarea { resize: none; display: block; }
+.panel input::placeholder, .panel textarea::placeholder { color: #9aa9b8; }
+.choice { border: 0; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 2.4cqw; }
+.chip { display: block; position: relative; }
+.chip input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.chip span { display: block; text-align: center; padding: 3cqw 1cqw; border-radius: 3cqw; background: #fff; border: .35cqw solid #c9d8e8; font: 700 3.5cqw/1.1 var(--f-sans); color: #4f6474; }
+.chip input:checked + span { background: var(--azul); border-color: var(--azul); color: #fff; }
+.chip input:focus-visible + span, .panel input:focus-visible, .panel select:focus-visible, .panel textarea:focus-visible, .gbtn:focus-visible, .g-btn:focus-visible, .pill:focus-visible, .lnk:focus-visible {
+  outline: .8cqw solid #e2a35f; outline-offset: .4cqw; }
+.err { color: #9a3b26; font: 700 3.2cqw/1.2 var(--f-sans); margin-top: 2cqw; }
+.note { font: 600 3.1cqw/1.3 var(--f-sans); color: #4f6474; margin-top: 2cqw; }
+#done .g-btn { margin-top: 2.6cqw; }
+#preview { font-size: max(16px, 3.4cqw); line-height: 1.3; }
+.lnk { background: none; border: 0; padding: 1.5cqw 0 0; font: 700 3.3cqw var(--f-sans); color: var(--azul); text-decoration: underline; cursor: pointer; display: block; }
+.gbtn { position: absolute; left: calc(var(--x) * 1cqw); bottom: calc(var(--b) * 1cqw); width: calc(var(--w) * 1cqw); height: 15cqw; display: flex; align-items: center; justify-content: center; text-align: center;
+  background: url(/img/p5-117.webp) 0 0 / 100% 100% no-repeat; border: 0; padding: 0; color: #fff; font: 700 4.4cqw/1 var(--f-sans); text-decoration: none; cursor: pointer; z-index: 3; transition: filter .2s; text-shadow: 0 .2cqw .6cqw rgba(70, 85, 55, .35); }
+.gbtn:hover { filter: brightness(.97) saturate(1.05); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Movimiento: cada parte aparece al llegar con el scroll */
+.anim .rise { opacity: 0; translate: 0 2.6cqw; transition: opacity .9s ease, translate 1s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--d, 0) * 120ms); }
+.anim .in .rise { opacity: 1; translate: 0 0; }
+.anim .fx { opacity: 0; transition: opacity 1s ease, translate 1.1s cubic-bezier(.2, .7, .2, 1), scale 1.1s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--d, 0) * 110ms); }
+.anim .fx-up { translate: 0 4cqw; }
+.anim .fx-drop { translate: 0 -6cqw; }
+.anim .fx-l { translate: -9cqw 0; }
+.anim .fx-r { translate: 9cqw 0; }
+.anim .fx-zoom { scale: .955; }
+.anim .fx-pop { translate: 0 7cqw; scale: .86; transition-duration: 1.2s; }
+.anim .in .fx { opacity: 1; translate: 0 0; scale: 1; }
+.float { animation: bob 6s ease-in-out infinite; }
+.float.sway { animation: sway 7s ease-in-out infinite; transform-origin: 50% 70%; }
+.tw { animation: tw 4.5s ease-in-out infinite; }
+.tw:nth-of-type(odd) { animation-delay: -1.8s; }
+.tw:nth-of-type(3n) { animation-delay: -3.1s; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.1cqw); } }
+@keyframes sway { 0%, 100% { transform: rotate(-1.4deg); } 50% { transform: rotate(1.4deg) translateY(-.6cqw); } }
+@keyframes tw { 0%, 100% { transform: scale(.92) rotate(-3deg); } 50% { transform: scale(1.1) rotate(3deg); } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .float, .tw { animation: none; }
+}
+</style>
+<script is:inline>if ("IntersectionObserver" in window && !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) document.documentElement.classList.add("anim");</script>
+</head>
+<body>
+<main data-pases={pases}>
+<section class="cq" id="portada" aria-label="Portada"><div class="art" ><img class="i bg" src="/img/p1-23.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" decoding="async">
+<img class="i  fx fx-l" src="/img/p1-24.webp" alt="" style="--x:0.00;--w:37.50;--y:-0.55;--d:1" decoding="async">
+<img class="i  fx fx-drop" src="/img/p1-25.webp" alt="" style="--x:70.78;--w:29.26;--y:-0.55;--d:1" decoding="async">
+<img class="i  fx fx-up" src="/img/p1-26.webp" alt="" style="--x:16.58;--w:6.39;--y:12.49;--d:2" decoding="async">
+<img class="i  fx fx-l" src="/img/p1-27.webp" alt="" style="--x:4.14;--w:8.43;--y:23.25;--d:1" decoding="async">
+<img class="i  fx fx-up" src="/img/p1-28.webp" alt="" style="--x:74.92;--w:10.56;--y:11.35;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p1-29.webp" alt="" style="--x:83.32;--w:6.30;--y:22.06;--d:2" decoding="async">
+<img class="i  fx fx-drop" src="/img/p1-30.webp" alt="" style="--x:35.39;--w:31.39;--y:-0.55;--d:1" decoding="async">
+<img class="i  fx fx-up" src="/img/p1-32.webp" alt="" style="--x:47.82;--w:6.39;--y:12.49;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p1-35.webp" alt="" style="--x:29.12;--w:18.80;--y:41.08;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p1-36.webp" alt="" style="--x:47.82;--w:6.39;--y:41.08;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p1-37.webp" alt="" style="--x:54.09;--w:18.89;--y:41.08;--d:2" decoding="async">
+<span class="t sans rise" style="--cx:50.45;--by:18.45;--w:17.6;--c:11;--d:1;color:#a38157" data-fit="17.6">¡Bienvenido</span>
+<span class="t sans rise" style="--cx:50.45;--by:22.64;--w:14.24;--c:8;--d:1;color:#a38157" data-fit="14.24">pequeño!</span>
+<h1><span class="t serif disp rise" style="--cx:49.14;--by:53.23;--w:50.86;--c:4;--d:2;color:#98bad9" data-fit="50.86">Baby</span><span class="t serif disp rise" style="--cx:49.14;--by:70.7;--w:67.98;--c:6;--d:3;color:#a38157" data-fit="67.98">Shower</span></h1>
+<span class="t sans rise" style="--cx:49.14;--by:89.05;--w:65.84;--c:24;--d:4;color:#99a68b" data-fit="65.84">Un osito está por llegar</span>
+<img class="i  fx fx-l" src="/img/p1-39.webp" alt="" style="--x:0.00;--w:33.33;--y:54.17;--d:1" decoding="async">
+<img class="i  fx fx-r" src="/img/p1-40.webp" alt="" style="--x:70.78;--w:29.26;--y:55.37;--d:1" decoding="async">
+<img class="i float fx fx-pop" src="/img/p1-41.webp" alt="Osito de peluche con moño azul" style="--x:20.83;--w:58.33;--y:51.78;--d:4" decoding="async">
+<img class="i  fx fx-up" src="/img/p1-42.webp" alt="" style="--x:10.41;--w:16.67;--y:89.88;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p1-43.webp" alt="" style="--x:79.06;--w:12.69;--y:89.88;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p1-44.webp" alt="" style="--x:0.00;--w:100.00;--y:89.88;--d:1" decoding="async"></div></section>
+<section class="cq" id="datos" aria-label="Datos del evento"><div class="art" ><img class="i bg" src="/img/p2-47.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" decoding="async">
+<img class="i  fx fx-zoom" src="/img/p2-48.webp" alt="" style="--x:4.14;--w:91.67;--y:1.78;--d:0" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-49.webp" alt="" style="--x:37.41;--w:20.93;--y:5.37;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-52.webp" alt="" style="--x:26.99;--w:46.02;--y:29.17;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-53.webp" alt="" style="--x:20.83;--w:8.43;--y:33.96;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-54.webp" alt="" style="--x:31.24;--w:2.13;--y:33.96;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-56.webp" alt="" style="--x:20.83;--w:8.43;--y:39.88;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-57.webp" alt="" style="--x:31.24;--w:2.13;--y:41.08;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-59.webp" alt="" style="--x:18.70;--w:10.56;--y:47.06;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-60.webp" alt="" style="--x:31.24;--w:2.13;--y:47.06;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-62.webp" alt="" style="--x:20.83;--w:8.43;--y:52.98;--d:2" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-63.webp" alt="" style="--x:31.24;--w:2.13;--y:54.17;--d:2" decoding="async">
+<h2><span class="t serif disp rise" style="--cx:49.34;--by:34.55;--w:46.17;--c:9;--d:1;color:#957c61" data-fit="46.17">Datos del</span><span class="t serif disp rise" style="--cx:49.42;--by:48.23;--w:51.77;--c:6;--d:2;color:#97b5cb" data-fit="51.77">evento</span></h2>
+<span class="t serif rise l" style="--lx:35.23;--by:90.67;--w:20.74;--c:11;--d:3;color:#5e4b37" data-fit="20.74" data-group="row">Salón Danny</span>
+<span class="t serif rise l u-row" style="--lx:35.06;--by:67.2;--d:3;color:#5e4b37">Sábado 14 de noviembre de 2026</span>
+<span class="t serif rise l u-row" style="--lx:35.06;--by:78.9;--d:3;color:#5e4b37">Hora: 2:00 p.m.</span>
+<span class="t serif rise l" style="--lx:34.98;--by:100.35;--w:42.06;--c:27;--d:4;color:#5e4b37" data-fit="42.06" data-group="addr">San Agustín #12, colonia La</span>
+<span class="t serif rise l u-addr" style="--lx:34.98;--by:104.3;--d:4;color:#5e4b37">Florida, Querétaro</span>
+<img class="i  fx fx-zoom" src="/img/p2-65.webp" alt="" style="--x:18.70;--w:62.59;--y:60.16;--d:0" decoding="async">
+<span class="t serif rise mapline" style="--cx:50.0;--by:121.9;--w:30;--c:18;--d:5;color:#5e4b37">Encuentra el salón</span>
+<span class="t serif rise mapline" style="--cx:50.0;--by:127.9;--w:30;--c:14;--d:5;color:#5e4b37">en Google Maps</span>
+<a class="pill rise" style="--d:6" href="https://maps.app.goo.gl/uMMTzam9s28GVHi69?g_st=ac" target="_blank" rel="noopener"><img src="/img/p2-68.webp" alt="" decoding="async"><span>Ver ubicación</span></a>
+<img class="i  fx fx-l" src="/img/p2-69.webp" alt="" style="--x:0.00;--w:12.50;--y:33.96;--d:1" decoding="async">
+<img class="i  fx fx-r" src="/img/p2-70.webp" alt="" style="--x:87.46;--w:12.50;--y:38.68;--d:1" decoding="async">
+<img class="i  fx fx-l" src="/img/p2-71.webp" alt="" style="--x:0.00;--w:14.63;--y:77.98;--d:1" decoding="async">
+<img class="i  fx fx-l" src="/img/p2-72.webp" alt="" style="--x:0.00;--w:14.63;--y:92.27;--d:1" decoding="async">
+<img class="i  fx fx-r" src="/img/p2-73.webp" alt="" style="--x:87.46;--w:12.50;--y:93.47;--d:1" decoding="async">
+<img class="i float fx fx-pop" src="/img/p2-74.webp" alt="Osito sentado con moño azul" style="--x:62.49;--w:31.39;--y:70.86;--d:4" decoding="async"></div></section>
+<section class="cq" id="cuenta-regresiva" aria-label="Cuenta regresiva"><div class="art" ><img class="i bg" src="/img/p3-77.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" decoding="async">
+<img class="i  fx fx-l" src="/img/p3-78.webp" alt="" style="--x:0.00;--w:22.96;--y:-0.55;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-zoom" src="/img/p3-79.webp" alt="" style="--x:16.58;--w:83.43;--y:-0.55;--d:0" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p3-80.webp" alt="" style="--x:0.00;--w:100.00;--y:91.08;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p3-81.webp" alt="" style="--x:41.66;--w:14.63;--y:93.47;--d:2" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p3-83.webp" alt="" style="--x:2.02;--w:95.93;--y:20.86;--d:1" loading="lazy" decoding="async">
+<h2><span class="t serif disp rise" style="--cx:49.14;--by:22.57;--w:42.96;--c:6;--d:1;color:#8f6a41" data-fit="42.96">Cuenta</span><span class="t serif disp rise" style="--cx:49.14;--by:34.58;--w:53.66;--c:9;--d:2;color:#8f6a41" data-fit="53.66">regresiva</span></h2>
+<div class="cd" role="timer" aria-label="Cuenta regresiva para el baby shower">
+  <p class="cd-h rise" style="--d:3" id="cdHead">Falta poco para celebrar<br>a Axel Damián</p>
+  <div class="cd-row rise" style="--d:4">
+    <div class="cd-c"><b id="cdD">--</b><small>días</small></div>
+    <div class="cd-c"><b id="cdH">--</b><small>horas</small></div>
+    <div class="cd-c"><b id="cdM">--</b><small>min</small></div>
+    <div class="cd-c"><b id="cdS">--</b><small>seg</small></div>
+  </div>
+  <p class="cd-f rise" style="--d:5">Sábado 14 de noviembre · 2:00 p.m.</p>
+</div>
+<img class="i float fx fx-pop" src="/img/p3-85.webp" alt="Osito sentado con moño azul" style="--x:54.09;--w:35.46;--y:68.47;--d:4" loading="lazy" decoding="async">
+<img class="i  fx fx-l" src="/img/p3-86.webp" alt="" style="--x:6.16;--w:20.93;--y:82.76;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-l" src="/img/p3-87.webp" alt="" style="--x:2.02;--w:25.09;--y:70.86;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-r" src="/img/p3-88.webp" alt="" style="--x:83.32;--w:14.63;--y:70.86;--d:1" loading="lazy" decoding="async"></div></section>
+<section class="cq" id="regalos" aria-label="Lista de regalos"><div class="art" ><img class="i bg" src="/img/p4-91.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" decoding="async">
+<img class="i  fx fx-l" src="/img/p4-92.webp" alt="" style="--x:0.00;--w:29.26;--y:-0.55;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-r" src="/img/p4-93.webp" alt="" style="--x:85.33;--w:14.63;--y:2.98;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p4-95.webp" alt="" style="--x:39.53;--w:20.93;--y:24.45;--d:2" loading="lazy" decoding="async">
+<h2><span class="t serif disp rise" style="--cx:49.38;--by:28.11;--w:42.8;--c:8;--d:1;color:#a26e33" data-fit="42.8">Lista de</span><span class="t serif disp rise" style="--cx:49.38;--by:39.06;--w:38.52;--c:7;--d:2;color:#a26e33" data-fit="38.52">regalos</span></h2>
+<span class="t sans rise semi" style="--cx:49.34;--by:54.3;--w:54.9;--c:28;--d:3;color:#6586a3" data-fit="54.9">Tu cariño es el mejor regalo</span>
+<img class="i  fx fx-zoom" src="/img/p4-97.webp" alt="" style="--x:12.43;--w:75.09;--y:31.57;--d:0" loading="lazy" decoding="async">
+<img class="i  fx fx-zoom" src="/img/p4-99.webp" alt="" style="--x:12.43;--w:75.09;--y:50.59;--d:0" loading="lazy" decoding="async">
+<div class="gbox rise" style="--y:31.57;--d:4">
+  <a class="g-btn big" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/60043188" target="_blank" rel="noopener">Ver mesa en Liverpool</a>
+</div>
+<div class="gbox rise" style="--y:50.59;--d:5">
+  <a class="g-btn big" href="https://www.amazon.com.mx/baby-reg/dafne-zamora-noviembre-2026-elmarques/2SCROPQPG8FA0" target="_blank" rel="noopener">Ver mesa en Amazon</a>
+</div>
+<img class="i  fx fx-l" src="/img/p4-101.webp" alt="" style="--x:0.00;--w:22.96;--y:63.68;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-l" src="/img/p4-102.webp" alt="" style="--x:2.02;--w:14.63;--y:83.96;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p4-103.webp" alt="" style="--x:12.43;--w:12.69;--y:86.35;--d:2" loading="lazy" decoding="async">
+<img class="i float fx fx-pop" src="/img/p4-104.webp" alt="Osito abrazando un regalo azul" style="--x:24.97;--w:48.06;--y:66.08;--d:4" loading="lazy" decoding="async">
+<img class="i  fx fx-r" src="/img/p4-105.webp" alt="" style="--x:74.92;--w:25.09;--y:62.49;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p4-106.webp" alt="" style="--x:77.05;--w:12.50;--y:86.35;--d:2" loading="lazy" decoding="async"></div></section>
+<section class="cq" id="confirmar" aria-label="Confirma tu asistencia"><div class="art" style="--E:45"><img class="i bg fillh" src="/img/p5-109.webp" alt="" loading="lazy" decoding="async" style="--x:0;--y:-0.55;--w:100">
+<img class="i cardimg fx fx-zoom" src="/img/p5-110.webp" alt="" loading="lazy" decoding="async" style="--x:4.14;--y:1.78;--w:89.72;--hh:212.32">
+<img class="i  fx fx-drop" src="/img/p5-111.webp" alt="" style="--x:41.66;--w:16.67;--y:2.98;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p5-113.webp" alt="" style="--x:26.99;--w:46.02;--y:26.78;--d:2" loading="lazy" decoding="async">
+<h2><span class="t serif disp rise" style="--cx:49.18;--by:31.34;--w:61.32;--c:11;--d:1;color:#956a42" data-fit="61.32">Confirma tu</span><span class="t serif disp rise" style="--cx:49.14;--by:43.19;--w:49.88;--c:10;--d:2;color:#956a42" data-fit="49.88">asistencia</span></h2>
+<span class="t sans rise semi" style="--cx:49.14;--by:61.27;--w:63.87;--c:30;--d:3;color:#8b987c" data-fit="63.87">Nos encantará celebrar contigo</span>
+<img class="i  bot fx fx-l" src="/img/p5-119.webp" alt="" style="--x:0.00;--w:20.93;--b:24.16;--d:1" loading="lazy" decoding="async">
+<img class="i  bot fx fx-r" src="/img/p5-120.webp" alt="" style="--x:79.06;--w:20.93;--b:24.12;--d:1" loading="lazy" decoding="async">
+<img class="i  bot fx fx-l" src="/img/p5-121.webp" alt="" style="--x:6.16;--w:14.81;--b:2.99;--d:1" loading="lazy" decoding="async">
+<img class="i  bot fx fx-r" src="/img/p5-122.webp" alt="" style="--x:70.78;--w:23.06;--b:7.21;--d:1" loading="lazy" decoding="async">
+<img class="i float bot fx fx-pop" src="/img/p5-123.webp" alt="Osito saludando con overol azul" style="--x:20.83;--w:52.22;--b:0.97;--d:4" loading="lazy" decoding="async">
+<img class="i  bot fx fx-l" src="/img/p5-124.webp" alt="" style="--x:0.00;--w:27.13;--b:1.02;--d:1" loading="lazy" decoding="async">
+<img class="i  bot fx fx-r" src="/img/p5-125.webp" alt="" style="--x:68.65;--w:31.39;--b:0.95;--d:1" loading="lazy" decoding="async">
+<div class="panel rise" style="--x:14.56;--y:36.35;--w:70.93;--hh:82.54;--d:4">
+  <p class="pase">Tu invitación es para {pases} {pases === 1 ? 'persona' : 'personas'}</p>
+  <form id="rsvp" novalidate>
+    <fieldset class="choice">
+      <legend class="sr">¿Asistirás?</legend>
+      <label class="chip"><input type="radio" name="asiste" value="si" checked><span>Sí, ahí estaré</span></label>
+      <label class="chip"><input type="radio" name="asiste" value="no"><span>No podré ir</span></label>
+    </fieldset>
+    <label class="f" for="nombre">Tu nombre</label>
+    <input id="nombre" type="text" autocomplete="name" placeholder="Nombre y apellido">
+    {pases > 1 && (
+    <div id="personasField">
+      <label class="f" for="personas">Personas que asisten (contándote)</label>
+      <select id="personas">
+        {Array.from({ length: pases }, (_, i) => <option value={i + 1} selected={i + 1 === pases}>{i + 1}</option>)}
+      </select>
+    </div>
+    )}
+    <label class="f" for="mensaje">Mensaje para Axel (opcional)</label>
+    <textarea id="mensaje" rows="2" placeholder="Unas palabras para Axel"></textarea>
+    <p class="err" id="err" role="alert" hidden>Escribe tu nombre para continuar.</p>
+  </form>
+  <div id="done" hidden>
+    <p class="f">Listo, este es tu mensaje:</p>
+    <textarea id="preview" rows="6" readonly></textarea>
+    <button class="g-btn" type="button" id="copyBtn">Copiar mensaje</button>
+    <p class="note" id="doneNote"></p>
+    <button class="lnk" type="button" id="editBtn">Editar mi respuesta</button>
+  </div>
+</div>
+<button class="gbtn bot rise" id="submitBtn" type="submit" form="rsvp" style="--x:20.83;--w:58.33;--b:51.69">Confirmar asistencia</button>
+<a class="gbtn bot rise" id="waBtn" href="#" target="_blank" rel="noopener" hidden style="--x:20.83;--w:58.33;--b:51.69">Enviar por WhatsApp</a></div></section>
+<section class="cq" id="gracias" aria-label="Gracias"><div class="art" ><img class="i bg" src="/img/p6-128.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" decoding="async">
+<img class="i tw fx fx-up" src="/img/p6-129.webp" alt="" style="--x:14.56;--w:8.43;--y:7.76;--d:2" loading="lazy" decoding="async">
+<img class="i tw fx fx-up" src="/img/p6-130.webp" alt="" style="--x:35.39;--w:4.26;--y:7.76;--d:2" loading="lazy" decoding="async">
+<img class="i tw fx fx-up" src="/img/p6-131.webp" alt="" style="--x:8.29;--w:6.39;--y:24.45;--d:2" loading="lazy" decoding="async">
+<img class="i tw fx fx-up" src="/img/p6-132.webp" alt="" style="--x:83.32;--w:6.30;--y:33.96;--d:2" loading="lazy" decoding="async">
+<img class="i tw fx fx-up" src="/img/p6-133.webp" alt="" style="--x:12.43;--w:8.52;--y:52.98;--d:2" loading="lazy" decoding="async">
+<img class="i tw fx fx-up" src="/img/p6-134.webp" alt="" style="--x:64.51;--w:8.52;--y:56.57;--d:2" loading="lazy" decoding="async">
+<img class="i tw fx fx-up" src="/img/p6-135.webp" alt="" style="--x:77.05;--w:8.43;--y:60.16;--d:2" loading="lazy" decoding="async">
+<img class="i tw fx fx-up" src="/img/p6-136.webp" alt="" style="--x:85.33;--w:6.39;--y:69.67;--d:2" loading="lazy" decoding="async">
+<img class="i  fx fx-drop" src="/img/p6-137.webp" alt="" style="--x:52.07;--w:47.96;--y:0.59;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-l" src="/img/p6-138.webp" alt="" style="--x:2.02;--w:43.89;--y:70.86;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p6-141.webp" alt="" style="--x:22.85;--w:52.22;--y:39.88;--d:2" loading="lazy" decoding="async">
+<h2><span class="t serif disp rise" style="--cx:49.34;--by:44.72;--w:59.34;--c:7;--d:1;color:#a27d4f" data-fit="59.34">Gracias</span></h2>
+<span class="t serif disp rise" style="--cx:49.34;--by:52.8;--w:51.44;--c:16;--d:2;color:#7495ac" data-fit="51.44">por ser parte de</span>
+<span class="t serif disp rise" style="--cx:49.34;--by:60.95;--w:46.17;--c:12;--d:2;color:#7495ac" data-fit="46.17">este momento</span>
+<span class="t serif disp rise" style="--cx:49.34;--by:69.18;--w:38.6;--c:12;--d:2;color:#7495ac" data-fit="38.6">tan especial</span>
+<span class="t serif disp rise" style="--cx:49.34;--by:91.31;--w:55.8;--c:14;--d:3;color:#7495ac" data-fit="55.8">¡Te esperamos!</span>
+<img class="i float sway fx fx-pop" src="/img/p6-143.webp" alt="Osito durmiendo sobre la luna" style="--x:16.58;--w:68.89;--y:52.98;--d:4" loading="lazy" decoding="async"></div></section>
+</main>
+<script is:inline>
+/* Datos que se pueden cambiar */
+var CONFIG = {
+  whatsapp: "524423602996"   // número con lada de país, solo dígitos (ej. 52XXXXXXXXXX). Vacío: WhatsApp deja elegir a quién enviar.
+};
+var EVENT_TS = Date.UTC(2026, 10, 14, 20, 0, 0); // 14 nov 2026, 2:00 p.m. hora de CDMX (UTC-6)
+
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* Ajusta cada línea de texto al ancho del diseño original */
+  var groups = {};
+  function fit() {
+    document.querySelectorAll('[data-fit]').forEach(function (el) {
+      var cq = el.closest('.cq'); if (!cq) return;
+      var unit = cq.clientWidth / 100; if (!unit) return;
+      var w = el.getBoundingClientRect().width; if (!w) return;
+      var cur = parseFloat(getComputedStyle(el).fontSize) / unit;
+      var fs = cur * (parseFloat(el.dataset.fit) * unit) / w;
+      el.style.fontSize = fs.toFixed(3) + 'cqw';
+      if (el.dataset.group) groups[el.dataset.group] = fs;
+    });
+    Object.keys(groups).forEach(function (g) {
+      document.documentElement.style.setProperty('--fs-' + g, groups[g].toFixed(3) + 'cqw');
+    });
+  }
+  fit();
+  window.addEventListener('load', fit);
+  if (document.fonts) {
+    if (document.fonts.ready) document.fonts.ready.then(fit);
+    if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', fit);
+  }
+
+  /* Entrada suave de cada hoja */
+  var arts = document.querySelectorAll('.cq');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.2, rootMargin: '0px 0px -6% 0px' });
+    arts.forEach(function (a) { io.observe(a); });
+  } else {
+    arts.forEach(function (a) { a.classList.add('in'); });
+  }
+  requestAnimationFrame(function () { arts[0].classList.add('in'); });
+
+  /* Cuenta regresiva en vivo */
+  var cd = { d: $('cdD'), h: $('cdH'), m: $('cdM'), s: $('cdS'), head: $('cdHead') };
+  function pad(n) { return n < 10 ? '0' + n : String(n); }
+  function tick() {
+    var diff = EVENT_TS - Date.now();
+    if (diff <= 0) {
+      var sinceMs = -diff;
+      cd.d.textContent = '00'; cd.h.textContent = '00'; cd.m.textContent = '00'; cd.s.textContent = '00';
+      cd.head.innerHTML = sinceMs < 6 * 3600 * 1000 ? '¡Hoy es el gran día!<br>Axel Damián ya viene' : 'Gracias por acompañarnos<br>a recibir a Axel Damián';
+      return;
+    }
+    var s = Math.floor(diff / 1000);
+    cd.d.textContent = pad(Math.floor(s / 86400));
+    cd.h.textContent = pad(Math.floor(s % 86400 / 3600));
+    cd.m.textContent = pad(Math.floor(s % 3600 / 60));
+    cd.s.textContent = pad(s % 60);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* Copiar con respaldo */
+  function copyText(text, fallbackEl, btn) {
+    var label = btn.textContent;
+    function ok() { btn.textContent = 'Copiado'; setTimeout(function () { btn.textContent = label; }, 1800); }
+    function fallback() {
+      try {
+        var el = fallbackEl;
+        if (!el) { el = document.createElement('textarea'); el.value = text; el.setAttribute('readonly', ''); el.style.cssText = 'position:fixed;left:-9999px'; document.body.appendChild(el); }
+        el.focus(); el.select(); if (document.execCommand('copy')) ok();
+        if (!fallbackEl) el.remove();
+      } catch (e) {}
+    }
+    try { navigator.clipboard.writeText(text).then(ok, fallback); } catch (e) { fallback(); }
+  }
+
+  /* Confirmación de asistencia */
+  var form = $('rsvp'), done = $('done'), preview = $('preview'), sub = $('submitBtn'), wa = $('waBtn');
+  function asiste() { return form.elements['asiste'].value; }
+  var pf = $('personasField'); // no existe en la invitación personal
+  form.addEventListener('change', function () { if (pf) pf.hidden = asiste() === 'no'; });
+  function prepare(ev) {
+    if (ev) ev.preventDefault();
+    var nombre = $('nombre').value.trim();
+    $('err').hidden = !!nombre;
+    if (!nombre) { $('nombre').focus(); return; }
+    var n = pf ? parseInt($('personas').value, 10) : 1, msg = $('mensaje').value.trim(), t;
+    if (asiste() === 'si') {
+      t = '¡Hola! Soy ' + nombre + '. Confirmo mi asistencia al baby shower de Axel Damián el sábado 14 de noviembre a las 2:00 p.m. para ' + n + (n === 1 ? ' persona.' : ' personas.');
+    } else {
+      t = '¡Hola! Soy ' + nombre + '. Gracias por la invitación al baby shower de Axel Damián. Lamentablemente no podré asistir, pero les mando un abrazo.';
+    }
+    if (msg) t += ' ' + msg;
+    preview.value = t;
+    var base = CONFIG.whatsapp ? 'https://wa.me/' + CONFIG.whatsapp : 'https://wa.me/';
+    wa.href = base + '?text=' + encodeURIComponent(t);
+    $('doneNote').textContent = CONFIG.whatsapp
+      ? 'Toca el botón verde y se abre WhatsApp con tu mensaje listo.'
+      : 'Toca el botón verde, elige el chat de Dafne o Alan y envía el mensaje.';
+    form.hidden = true; done.hidden = false; sub.hidden = true; wa.hidden = false;
+  }
+  form.addEventListener('submit', prepare);
+  $('copyBtn').addEventListener('click', function () { copyText(preview.value, preview, this); });
+  $('editBtn').addEventListener('click', function () { done.hidden = true; form.hidden = false; wa.hidden = true; sub.hidden = false; });
+})();
+</script>
+</body>
+</html>
