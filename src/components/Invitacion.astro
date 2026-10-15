@@ -8,6 +8,7 @@ const { pases } = Astro.props;
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Baby Shower de Axel Damián</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Raleway:wght@500;600;700&display=swap">
 <style is:global>
 /* Concepto: la invitación de Canva (6 hojas verticales) apilada en un scroll normal.
@@ -137,7 +138,7 @@ main { max-width: 560px; margin: 0 auto; background: var(--crema); box-shadow: 0
 </head>
 <body>
 <main data-pases={pases}>
-<section class="cq" id="portada" aria-label="Portada"><div class="art" ><img class="i bg" src="/img/p1-23.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" decoding="async">
+<section class="cq" id="portada" aria-label="Portada"><div class="art" ><img class="i bg" src="/img/p1-23.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" fetchpriority="high">
 <img class="i  fx fx-l" src="/img/p1-24.webp" alt="" style="--x:0.00;--w:37.50;--y:-0.55;--d:1" decoding="async">
 <img class="i  fx fx-drop" src="/img/p1-25.webp" alt="" style="--x:70.78;--w:29.26;--y:-0.55;--d:1" decoding="async">
 <img class="i  fx fx-up" src="/img/p1-26.webp" alt="" style="--x:16.58;--w:6.39;--y:12.49;--d:2" decoding="async">
@@ -155,39 +156,39 @@ main { max-width: 560px; margin: 0 auto; background: var(--crema); box-shadow: 0
 <span class="t sans rise" style="--cx:49.14;--by:89.05;--w:65.84;--c:24;--d:4;color:#99a68b" data-fit="65.84">Un osito está por llegar</span>
 <img class="i  fx fx-l" src="/img/p1-39.webp" alt="" style="--x:0.00;--w:33.33;--y:54.17;--d:1" decoding="async">
 <img class="i  fx fx-r" src="/img/p1-40.webp" alt="" style="--x:70.78;--w:29.26;--y:55.37;--d:1" decoding="async">
-<img class="i float fx fx-pop" src="/img/p1-41.webp" alt="Osito de peluche con moño azul" style="--x:20.83;--w:58.33;--y:51.78;--d:4" decoding="async">
+<img class="i float fx fx-pop" src="/img/p1-41.webp" alt="Osito de peluche con moño azul" style="--x:20.83;--w:58.33;--y:51.78;--d:4" fetchpriority="high">
 <img class="i  fx fx-up" src="/img/p1-42.webp" alt="" style="--x:10.41;--w:16.67;--y:89.88;--d:2" decoding="async">
 <img class="i  fx fx-up" src="/img/p1-43.webp" alt="" style="--x:79.06;--w:12.69;--y:89.88;--d:2" decoding="async">
 <img class="i  fx fx-up" src="/img/p1-44.webp" alt="" style="--x:0.00;--w:100.00;--y:89.88;--d:1" decoding="async"></div></section>
-<section class="cq" id="datos" aria-label="Datos del evento"><div class="art" ><img class="i bg" src="/img/p2-47.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" decoding="async">
-<img class="i  fx fx-zoom" src="/img/p2-48.webp" alt="" style="--x:4.14;--w:91.67;--y:1.78;--d:0" decoding="async">
-<img class="i  fx fx-up" src="/img/p2-49.webp" alt="" style="--x:37.41;--w:20.93;--y:5.37;--d:2" decoding="async">
-<img class="i  fx fx-up" src="/img/p2-52.webp" alt="" style="--x:26.99;--w:46.02;--y:29.17;--d:2" decoding="async">
-<img class="i  fx fx-up" src="/img/p2-53.webp" alt="" style="--x:20.83;--w:8.43;--y:33.96;--d:2" decoding="async">
-<img class="i  fx fx-up" src="/img/p2-54.webp" alt="" style="--x:31.24;--w:2.13;--y:33.96;--d:2" decoding="async">
-<img class="i  fx fx-up" src="/img/p2-56.webp" alt="" style="--x:20.83;--w:8.43;--y:39.88;--d:2" decoding="async">
-<img class="i  fx fx-up" src="/img/p2-57.webp" alt="" style="--x:31.24;--w:2.13;--y:41.08;--d:2" decoding="async">
-<img class="i  fx fx-up" src="/img/p2-59.webp" alt="" style="--x:18.70;--w:10.56;--y:47.06;--d:2" decoding="async">
-<img class="i  fx fx-up" src="/img/p2-60.webp" alt="" style="--x:31.24;--w:2.13;--y:47.06;--d:2" decoding="async">
-<img class="i  fx fx-up" src="/img/p2-62.webp" alt="" style="--x:20.83;--w:8.43;--y:52.98;--d:2" decoding="async">
-<img class="i  fx fx-up" src="/img/p2-63.webp" alt="" style="--x:31.24;--w:2.13;--y:54.17;--d:2" decoding="async">
+<section class="cq" id="datos" aria-label="Datos del evento"><div class="art" ><img class="i bg" src="/img/p2-47.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" loading="lazy" decoding="async">
+<img class="i  fx fx-zoom" src="/img/p2-48.webp" alt="" style="--x:4.14;--w:91.67;--y:1.78;--d:0" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-49.webp" alt="" style="--x:37.41;--w:20.93;--y:5.37;--d:2" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-52.webp" alt="" style="--x:26.99;--w:46.02;--y:29.17;--d:2" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-53.webp" alt="" style="--x:20.83;--w:8.43;--y:33.96;--d:2" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-54.webp" alt="" style="--x:31.24;--w:2.13;--y:33.96;--d:2" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-56.webp" alt="" style="--x:20.83;--w:8.43;--y:39.88;--d:2" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-57.webp" alt="" style="--x:31.24;--w:2.13;--y:41.08;--d:2" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-59.webp" alt="" style="--x:18.70;--w:10.56;--y:47.06;--d:2" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-60.webp" alt="" style="--x:31.24;--w:2.13;--y:47.06;--d:2" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-62.webp" alt="" style="--x:20.83;--w:8.43;--y:52.98;--d:2" loading="lazy" decoding="async">
+<img class="i  fx fx-up" src="/img/p2-63.webp" alt="" style="--x:31.24;--w:2.13;--y:54.17;--d:2" loading="lazy" decoding="async">
 <h2><span class="t serif disp rise" style="--cx:49.34;--by:34.55;--w:46.17;--c:9;--d:1;color:#957c61" data-fit="46.17">Datos del</span><span class="t serif disp rise" style="--cx:49.42;--by:48.23;--w:51.77;--c:6;--d:2;color:#97b5cb" data-fit="51.77">evento</span></h2>
 <span class="t serif rise l" style="--lx:35.23;--by:90.67;--w:20.74;--c:11;--d:3;color:#5e4b37" data-fit="20.74" data-group="row">Salón Danny</span>
 <span class="t serif rise l u-row" style="--lx:35.06;--by:67.2;--d:3;color:#5e4b37">Sábado 14 de noviembre de 2026</span>
 <span class="t serif rise l u-row" style="--lx:35.06;--by:78.9;--d:3;color:#5e4b37">Hora: 2:00 p.m.</span>
 <span class="t serif rise l" style="--lx:34.98;--by:100.35;--w:42.06;--c:27;--d:4;color:#5e4b37" data-fit="42.06" data-group="addr">San Agustín #12, colonia La</span>
 <span class="t serif rise l u-addr" style="--lx:34.98;--by:104.3;--d:4;color:#5e4b37">Florida, Querétaro</span>
-<img class="i  fx fx-zoom" src="/img/p2-65.webp" alt="" style="--x:18.70;--w:62.59;--y:60.16;--d:0" decoding="async">
+<img class="i  fx fx-zoom" src="/img/p2-65.webp" alt="" style="--x:18.70;--w:62.59;--y:60.16;--d:0" loading="lazy" decoding="async">
 <span class="t serif rise mapline" style="--cx:50.0;--by:121.9;--w:30;--c:18;--d:5;color:#5e4b37">Encuentra el salón</span>
 <span class="t serif rise mapline" style="--cx:50.0;--by:127.9;--w:30;--c:14;--d:5;color:#5e4b37">en Google Maps</span>
-<a class="pill rise" style="--d:6" href="https://maps.app.goo.gl/uMMTzam9s28GVHi69?g_st=ac" target="_blank" rel="noopener"><img src="/img/p2-68.webp" alt="" decoding="async"><span>Ver ubicación</span></a>
-<img class="i  fx fx-l" src="/img/p2-69.webp" alt="" style="--x:0.00;--w:12.50;--y:33.96;--d:1" decoding="async">
-<img class="i  fx fx-r" src="/img/p2-70.webp" alt="" style="--x:87.46;--w:12.50;--y:38.68;--d:1" decoding="async">
-<img class="i  fx fx-l" src="/img/p2-71.webp" alt="" style="--x:0.00;--w:14.63;--y:77.98;--d:1" decoding="async">
-<img class="i  fx fx-l" src="/img/p2-72.webp" alt="" style="--x:0.00;--w:14.63;--y:92.27;--d:1" decoding="async">
-<img class="i  fx fx-r" src="/img/p2-73.webp" alt="" style="--x:87.46;--w:12.50;--y:93.47;--d:1" decoding="async">
-<img class="i float fx fx-pop" src="/img/p2-74.webp" alt="Osito sentado con moño azul" style="--x:62.49;--w:31.39;--y:70.86;--d:4" decoding="async"></div></section>
-<section class="cq" id="cuenta-regresiva" aria-label="Cuenta regresiva"><div class="art" ><img class="i bg" src="/img/p3-77.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" decoding="async">
+<a class="pill rise" style="--d:6" href="https://maps.app.goo.gl/uMMTzam9s28GVHi69?g_st=ac" target="_blank" rel="noopener"><img src="/img/p2-68.webp" alt="" loading="lazy" decoding="async"><span>Ver ubicación</span></a>
+<img class="i  fx fx-l" src="/img/p2-69.webp" alt="" style="--x:0.00;--w:12.50;--y:33.96;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-r" src="/img/p2-70.webp" alt="" style="--x:87.46;--w:12.50;--y:38.68;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-l" src="/img/p2-71.webp" alt="" style="--x:0.00;--w:14.63;--y:77.98;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-l" src="/img/p2-72.webp" alt="" style="--x:0.00;--w:14.63;--y:92.27;--d:1" loading="lazy" decoding="async">
+<img class="i  fx fx-r" src="/img/p2-73.webp" alt="" style="--x:87.46;--w:12.50;--y:93.47;--d:1" loading="lazy" decoding="async">
+<img class="i float fx fx-pop" src="/img/p2-74.webp" alt="Osito sentado con moño azul" style="--x:62.49;--w:31.39;--y:70.86;--d:4" loading="lazy" decoding="async"></div></section>
+<section class="cq" id="cuenta-regresiva" aria-label="Cuenta regresiva"><div class="art" ><img class="i bg" src="/img/p3-77.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" loading="lazy" decoding="async">
 <img class="i  fx fx-l" src="/img/p3-78.webp" alt="" style="--x:0.00;--w:22.96;--y:-0.55;--d:1" loading="lazy" decoding="async">
 <img class="i  fx fx-zoom" src="/img/p3-79.webp" alt="" style="--x:16.58;--w:83.43;--y:-0.55;--d:0" loading="lazy" decoding="async">
 <img class="i  fx fx-up" src="/img/p3-80.webp" alt="" style="--x:0.00;--w:100.00;--y:91.08;--d:1" loading="lazy" decoding="async">
@@ -208,7 +209,7 @@ main { max-width: 560px; margin: 0 auto; background: var(--crema); box-shadow: 0
 <img class="i  fx fx-l" src="/img/p3-86.webp" alt="" style="--x:6.16;--w:20.93;--y:82.76;--d:1" loading="lazy" decoding="async">
 <img class="i  fx fx-l" src="/img/p3-87.webp" alt="" style="--x:2.02;--w:25.09;--y:70.86;--d:1" loading="lazy" decoding="async">
 <img class="i  fx fx-r" src="/img/p3-88.webp" alt="" style="--x:83.32;--w:14.63;--y:70.86;--d:1" loading="lazy" decoding="async"></div></section>
-<section class="cq" id="regalos" aria-label="Lista de regalos"><div class="art" ><img class="i bg" src="/img/p4-91.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" decoding="async">
+<section class="cq" id="regalos" aria-label="Lista de regalos"><div class="art" ><img class="i bg" src="/img/p4-91.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" loading="lazy" decoding="async">
 <img class="i  fx fx-l" src="/img/p4-92.webp" alt="" style="--x:0.00;--w:29.26;--y:-0.55;--d:1" loading="lazy" decoding="async">
 <img class="i  fx fx-r" src="/img/p4-93.webp" alt="" style="--x:85.33;--w:14.63;--y:2.98;--d:1" loading="lazy" decoding="async">
 <img class="i  fx fx-up" src="/img/p4-95.webp" alt="" style="--x:39.53;--w:20.93;--y:24.45;--d:2" loading="lazy" decoding="async">
@@ -273,7 +274,7 @@ main { max-width: 560px; margin: 0 auto; background: var(--crema); box-shadow: 0
 </div>
 <button class="gbtn bot rise" id="submitBtn" type="submit" form="rsvp" style="--x:20.83;--w:58.33;--b:51.69">Confirmar asistencia</button>
 <a class="gbtn bot rise" id="waBtn" href="#" target="_blank" rel="noopener" hidden style="--x:20.83;--w:58.33;--b:51.69">Enviar por WhatsApp</a></div></section>
-<section class="cq" id="gracias" aria-label="Gracias"><div class="art" ><img class="i bg" src="/img/p6-128.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" decoding="async">
+<section class="cq" id="gracias" aria-label="Gracias"><div class="art" ><img class="i bg" src="/img/p6-128.webp" alt="" style="--x:0.00;--w:100.00;--y:-0.55" loading="lazy" decoding="async">
 <img class="i tw fx fx-up" src="/img/p6-129.webp" alt="" style="--x:14.56;--w:8.43;--y:7.76;--d:2" loading="lazy" decoding="async">
 <img class="i tw fx fx-up" src="/img/p6-130.webp" alt="" style="--x:35.39;--w:4.26;--y:7.76;--d:2" loading="lazy" decoding="async">
 <img class="i tw fx fx-up" src="/img/p6-131.webp" alt="" style="--x:8.29;--w:6.39;--y:24.45;--d:2" loading="lazy" decoding="async">
