@@ -1,0 +1,9 @@
+---
+import InvitacionDino from '../../components/InvitacionDino.astro';
+import { INVITACIONES } from '../../data/invitaciones';
+
+export function getStaticPaths() {
+  return Object.entries(INVITACIONES).map(([codigo, pases]) => ({ params: { codigo }, props: { pases } }));
+}
+---
+<InvitacionDino pases={Astro.props.pases} />
